@@ -1,0 +1,233 @@
+# ============================================================
+# 1. Student Marks
+# Calculate Total and Average marks.
+# Display students whose Average is greater than 75.
+# ============================================================
+
+import pandas as pd
+
+# Input Data
+data = {
+    "Name": ["Arun", "Bala", "Charan", "Divya"],
+    "Python": [80, 65, 90, 75],
+    "Java": [85, 70, 88, 80],
+    "DBMS": [75, 60, 92, 78]
+}
+
+df = pd.DataFrame(data)
+
+# Calculate Total and Average
+df["Total"] = df["Python"] + df["Java"] + df["DBMS"]
+df["Average"] = df["Total"] / 3
+
+# Display all students
+print("Student Details:")
+print(df[["Name", "Total", "Average"]].to_string(index=False,
+                                                formatters={"Average": "{:.2f}".format}))
+
+# Display students with Average > 75
+print("\nStudents with Average > 75:")
+result = df[df["Average"] > 75]
+
+print(result[["Name", "Average"]].to_string(index=False,
+                                            formatters={"Average": "{:.2f}".format}))
+
+
+# -------------------- OUTPUT --------------------
+# Student Details:
+#   Name  Total  Average
+#   Arun    240    80.00
+#   Bala    195    65.00
+# Charan    270    90.00
+#  Divya    233    77.67
+#
+# Students with Average > 75:
+#   Name  Average
+#   Arun    80.00
+# Charan    90.00
+#  Divya    77.67
+# ============================================================
+
+
+# ============================================================
+# 2. Employee Salary
+# Find the highest-paid employee in each department.
+# ============================================================
+
+import pandas as pd
+
+# Input Data
+data = {
+    "ID": [101, 102, 103, 104, 105],
+    "Name": ["Ravi", "Kumar", "Anu", "Priya", "Manoj"],
+    "Department": ["IT", "HR", "IT", "HR", "Sales"],
+    "Salary": [50000, 45000, 65000, 55000, 60000]
+}
+
+df = pd.DataFrame(data)
+
+# Find highest-paid employee in each department
+result = df.loc[df.groupby("Department")["Salary"].idxmax()]
+
+# Sort by Department
+result = result.sort_values("Department")
+
+# Display required columns
+print("Highest Paid Employee in Each Department:")
+print(result[["Department", "Name", "Salary"]].to_string(index=False))
+
+
+# -------------------- OUTPUT --------------------
+# Highest Paid Employee in Each Department:
+# Department  Name  Salary
+#         HR Priya   55000
+#         IT   Anu   65000
+#      Sales Manoj   60000
+# ============================================================
+
+
+
+
+# ============================================================
+# 3. Product Sales
+# Calculate Total_Sales = Quantity × Price
+# Find total sales for each category.
+# ============================================================
+
+import pandas as pd
+
+# Input Data
+data = {
+    "Product": ["Laptop", "Mouse", "Keyboard", "Mobile", "Tablet"],
+    "Category": ["Electronics", "Accessories", "Accessories",
+                 "Electronics", "Electronics"],
+    "Quantity": [5, 20, 10, 8, 6],
+    "Price": [50000, 500, 1000, 20000, 15000]
+}
+
+df = pd.DataFrame(data)
+
+# Calculate Total Sales
+df["Total_Sales"] = df["Quantity"] * df["Price"]
+
+# Display product-wise sales
+print("Product-wise Total Sales:")
+print(df[["Product", "Total_Sales"]].to_string(index=False))
+
+# Calculate category-wise total sales
+result = df.groupby("Category")["Total_Sales"].sum()
+
+print("\nCategory-wise Total Sales:")
+print(result)
+
+
+# -------------------- OUTPUT --------------------
+# Product-wise Total Sales:
+#   Product  Total_Sales
+#    Laptop       250000
+#     Mouse        10000
+#  Keyboard        10000
+#    Mobile       160000
+#    Tablet        90000
+#
+# Category-wise Total Sales:
+# Category
+# Accessories     20000
+# Electronics    500000
+# Name: Total_Sales, dtype: int64
+# ============================================================
+
+
+
+
+# ============================================================
+# 4. Student Attendance
+# Calculate attendance percentage.
+# Display students whose attendance is below 80%.
+# ============================================================
+
+import pandas as pd
+
+# Input Data
+data = {
+    "Name": ["Arun", "Bala", "Charan", "Divya"],
+    "Total_Days": [50, 50, 50, 50],
+    "Present_Days": [45, 38, 48, 35]
+}
+
+df = pd.DataFrame(data)
+
+# Calculate Attendance Percentage
+df["Attendance %"] = (df["Present_Days"] / df["Total_Days"]) * 100
+
+# Display all students
+print("Student Attendance:")
+print(df[["Name", "Attendance %"]].to_string(index=False))
+
+# Display students below 80%
+result = df[df["Attendance %"] < 80]
+
+print("\nStudents below 80%:")
+print(result[["Name", "Attendance %"]].to_string(index=False))
+
+
+# -------------------- OUTPUT --------------------
+# Student Attendance:
+#   Name  Attendance %
+#   Arun          90.0
+#   Bala          76.0
+# Charan          96.0
+#  Divya          70.0
+#
+# Students below 80%:
+# Name  Attendance %
+# Bala          76.0
+# Divya          70.0
+# ============================================================
+
+
+
+
+# ============================================================
+# 5. Product Rating Analysis
+# Find the average rating for each category.
+# Display the category having the highest average rating.
+# ============================================================
+
+import pandas as pd
+
+# Input Data
+data = {
+    "Product": ["Laptop", "Mobile", "Mouse", "Keyboard", "Tablet"],
+    "Category": ["Electronics", "Electronics", "Accessories",
+                 "Accessories", "Electronics"],
+    "Rating": [4.5, 4.2, 3.8, 4.6, 4.8]
+}
+
+df = pd.DataFrame(data)
+
+# Calculate average rating for each category
+result = df.groupby("Category")["Rating"].mean()
+
+print("Average Rating by Category:")
+print(result)
+
+
+# Find category with highest average rating
+category = result.idxmax()
+rating = result.max()
+
+print("\nHighest Rated Category:")
+print(category, f"{rating:.2f}")
+
+
+# -------------------- OUTPUT --------------------
+# Average Rating by Category:
+# Category
+# Accessories    4.20
+# Electronics    4.50
+# Name: Rating, dtype: float64
+#
+# Highest Rated Category:
+# Electronics 4.50
+# ============================================================
